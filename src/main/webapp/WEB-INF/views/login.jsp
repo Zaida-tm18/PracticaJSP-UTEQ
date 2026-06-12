@@ -1,0 +1,62 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesion</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 520px; margin: 2rem auto; padding: 0 1rem }
+        .error { color: #c0392b; background: #fdecea; padding: 10px 14px;
+            border-left: 4px solid #c0392b; margin: 12px 0; border-radius: 4px }
+        .success { color: #27ae60; background: #eafaf1; padding: 10px 14px;
+            border-left: 4px solid #27ae60; margin: 12px 0; border-radius: 4px }
+        .form-group { margin-bottom: 1rem }
+        label { display: block; font-weight: bold; margin-bottom: 4px }
+        input { width: 100%; padding: 8px; border: 1px solid #ccc;
+            border-radius: 4px; box-sizing: border-box }
+        button { width: 100%; padding: 10px; background: #f4a000;
+            border: none; border-radius: 4px; font-size: 1rem;
+            color: white; cursor: pointer; margin-top: 0.5rem }
+        button:hover { background: #d08800 }
+    </style>
+</head>
+<body>
+<h1>Iniciar sesion</h1>
+
+<c:if test="${param.registrado == 'true'}">
+    <div class="success">
+        ¡Cuenta creada exitosamente! Ahora puedes iniciar sesion.
+    </div>
+</c:if>
+
+<c:if test="${not empty errorLogin}">
+    <div class="error">
+        <c:out value="${errorLogin}"/>
+    </div>
+</c:if>
+
+<form method="POST" action="${pageContext.request.contextPath}/login">
+    <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
+
+    <div class="form-group">
+        <label for="email">Correo electronico</label>
+        <input type="email" id="email" name="email"
+               required placeholder="usuario@dominio.com">
+    </div>
+
+    <div class="form-group">
+        <label for="clave">Contrasena</label>
+        <input type="password" id="clave" name="clave" required>
+    </div>
+
+    <button type="submit">Entrar</button>
+</form>
+
+<p style="margin-top: 1rem">
+    ¿No tienes cuenta?
+    <a href="${pageContext.request.contextPath}/registro">Registrate</a>
+</p>
+</body>
+</html>
